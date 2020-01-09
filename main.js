@@ -6,7 +6,7 @@ document.getElementById("image").appendChild(image);
 var data=document.createElement("p");
 document.getElementById("data").appendChild(data);
 function buscar(){
-    var peticion="http://www.omdbapi.com/?"
+    var peticion="https://www.omdbapi.com/?"
     var name=document.getElementById("name").value;
     var year=document.getElementById("year").value;
     name=name.split(" ");
