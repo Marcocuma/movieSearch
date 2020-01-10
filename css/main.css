@@ -1,0 +1,27 @@
+img{
+    width: 100%;
+    height: 100%;
+}
+#divImagen img{
+    height: 60vh;
+}
+#movies img{
+    margin-bottom: 1em;
+    border: 1px solid black;
+    height: 80vh;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+.modal-content{
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 70vh;
+    overflow-y: auto;
+}

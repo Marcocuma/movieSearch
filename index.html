@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>The Movie Database</title>
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
     <div class="container">
@@ -15,15 +16,33 @@
             <input type="text" id="name" required/>
             <label for="year">Year</label>
             <input type="number" id="year"/>
-            <input type="button" value="Search" onclick="buscar()"/>
+            <input type="button" value="Search" onclick="mostrarPortadas()"/>
         </form>
-        <div id="movie" class="row">
-            <div id="data" class="col-6">
-            </div>
-            <div id="image" class="col-6">
-            </div>
+        <div id="movies" class="row">
         </div>
     </div>
-    <script src="main.js"></script>
+<div class="modal" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Modal title</h5>
+        <button type="button" class="close" id="cerrar" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row">
+        <div id="divImagen" class="col-12 col-md-5">
+            <img id="img"></img>
+        </div>
+        <div id="descripcion" class="col-12 col-md-7">
+            <p id="descripcion"></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+<div>
+    <script src="./js/main.js"></script>
 </body>
 </html>
