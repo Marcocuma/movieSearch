@@ -44,17 +44,39 @@ function anadirPortadas(){
 function maquetarPortadas(peliculas){
     console.log(peliculas)
     $.each(peliculas.Search,function(indice,element){
+        //Div global de la card
         var pelicula=$('<div>');
         pelicula.id=element.imdbID;
         $(pelicula).on("click",() =>buscarPelicula(pelicula.id));
-        $(pelicula).attr('class','col-12 col-sm-4');
+        $(pelicula).attr('class','card col-12 col-sm-6 col-lg-3');
+        //Imagen de la card
+        var contenedorPortada=$("<div>");
+        $(contenedorPortada).attr('id','imgPelicula');
         var portada=$('<img>');
         if(element.Poster!="N/A")
             $(portada).attr("src",element.Poster);
         else
             $(portada).attr("src",'./img/notFound.jpg');
+        $(portada).attr("class","card-img-top");
         console.log($('portada'))
-        $(pelicula).append(portada);
+        //Cuerpo de la card
+        var body=$("<div>");
+        $(body).attr("class","card-img-overlay")
+        $(body).attr("id","tituloPelicula")
+        $(body).mouseenter(function(){
+            $(contenedorPortada).css({"opacity": "0.3","transition": "1s"})
+        })
+        $(body).mouseleave(function(){
+            $(contenedorPortada).css({"opacity": "1","transition": "1s"})
+        })
+        //Titulo de la card
+        var titulo=$("<h5>");
+        $(titulo).attr("class","card-title");
+        $(titulo).text(element.Title);
+        $(contenedorPortada).append(portada);
+        $(pelicula).append(contenedorPortada);
+        $(body).append(titulo);
+        $(pelicula).append(body);
         $('#movies').append(pelicula);
     });
 }
