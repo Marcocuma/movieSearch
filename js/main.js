@@ -1,20 +1,29 @@
 var key="apikey=3695b132";
 var enlace="https://www.omdbapi.com/?";
 var pagina=1;
-$(window).scroll(anadirPortadas);
-$('#cerrar').on('click',() => $('#modalCenter').fadeOut())
+var bloqueo=false;
+$(window).scroll(comprobarBloqueo);
+$('#cerrar').on('click',function(){
+    $('#modalCenter').fadeOut();
+    limpiarModal();
+})
 function mostrarPortadas(){
     $('#movies').empty();
     pagina=1;
     anadirPortadas();
 }
+function comprobarBloqueo(){
+    if(!bloqueo)
+        anadirPortadas();
+}
 function anadirPortadas(){
-    if($(window).scrollTop() + $(window).height() >= $(document).height()-100){
+    if(($(window).scrollTop() + $(window).height() >= $(document).height()-100)){
+        $('#carga').attr("style",'');
+        bloqueo=true;
         var peticion=enlace;
         var nombre=$('#name').val();
         var anio=$('#year').val();
         nombre=nombre.split(" ");
-        console.log(nombre);
         peticion+="s=";
         for (let index = 0; index < nombre.length; index++) {
             if(index==0&&nombre.length>1)
@@ -33,6 +42,7 @@ function anadirPortadas(){
             success: function(respuesta) {
                 console.log(respuesta);
                 maquetarPortadas(respuesta);
+                $('#carga').attr("style",'display:none');
             },
             error: function() {
                 console.log("No se ha podido obtener la información");
@@ -61,8 +71,7 @@ function maquetarPortadas(peliculas){
         console.log($('portada'))
         //Cuerpo de la card
         var body=$("<div>");
-        $(body).attr("class","card-img-overlay")
-        $(body).attr("id","tituloPelicula")
+        $(body).attr("class","card-img-overlay d-flex align-items-center justify-content-center tituloPelicula")
         $(body).mouseenter(function(){
             $(contenedorPortada).css({"opacity": "0.3","transition": "1s"})
         })
@@ -79,6 +88,7 @@ function maquetarPortadas(peliculas){
         $(pelicula).append(body);
         $('#movies').append(pelicula);
     });
+    bloqueo=false;
 }
 function buscarPelicula(id){
     var peticion=enlace;
@@ -95,15 +105,24 @@ function buscarPelicula(id){
         }
     });
 }
+function limpiarModal(){
+    $('#genre').text("");
+    $('#release').text("");
+    $('#director').text("");
+    $('#writer').text("");
+    $('#actors').text("");
+    $('#plot').text("");
+    $('#rating').text("");
+}
 function maquetarModal(datos){
     $('#modalTitle').text(datos.Title)
     $('#img').attr("src",datos.Poster);
-    $('#descripcion').html("<strong>Genre</strong> "+datos.Genre+"<br>"+
-    "<strong>Release</strong> "+datos.Release+"<br>"+
-    "<strong>Director</strong> "+datos.Director+"<br>"+
-    "<strong>Writer</strong> "+datos.Writer+"<br>"+
-    "<strong>Actors</strong> "+datos.Actors+"<br>"+
-    "<strong>Plot</strong> "+datos.Plot+"<br>"+
-    "<strong>Rating</strong> "+datos.imdbRating+"<br>")
+    $('#genre').text(datos.Genre)
+    $('#release').text(datos.Release)
+    $('#director').text(datos.Director)
+    $('#writer').text(datos.Writer)
+    $('#actors').text(datos.Actors)
+    $('#plot').text(datos.Plot)
+    $('#rating').text(datos.imdbRating)
     $('#modalCenter').fadeIn();
 }
