@@ -1,17 +1,29 @@
+//Inicializacion de variables globales
 var key="apikey=3695b132";
 var enlace="https://www.omdbapi.com/?";
 var pagina=1;
+var nombre,anio;
 var bloqueo=false;
+
+
+//Añade la funcion comprobarBloqueo al evento scroll
 $(window).scroll(comprobarBloqueo);
+//Añade un evento click al boton de X del modal , para que lo cierre y lo limpie.
 $('#cerrar').on('click',function(){
     $('#modalCenter').fadeOut();
     limpiarModal();
 })
+//Limpia el contenedor que contiene las portadas, resetea la variable pagina a 1 y coge el valor de los campos de texto 
+//llama a la funcion de anadirPortadas
 function mostrarPortadas(){
     $('#movies').empty();
     pagina=1;
+    nombre=$('#name').val();
+    anio=$('#year').val();
     anadirPortadas();
 }
+//Comprueba que no se este realizando una peticion ayax en ese instante, si no lo esta haciendo,
+// llama al metodo anadirPortadas.
 function comprobarBloqueo(){
     if(!bloqueo)
         anadirPortadas();
@@ -21,17 +33,15 @@ function anadirPortadas(){
         $('#carga').attr("style",'');
         bloqueo=true;
         var peticion=enlace;
-        var nombre=$('#name').val();
-        var anio=$('#year').val();
-        nombre=nombre.split(" ");
+        nombreDividido=nombre.split(" ");
         peticion+="s=";
-        for (let index = 0; index < nombre.length; index++) {
-            if(index==0&&nombre.length>1)
-                peticion+=nombre[index]+"+";
-            else if(index<nombre.length-1)
-                peticion+=nombre[index]+"+";
+        for (let index = 0; index < nombreDividido.length; index++) {
+            if(index==0&&nombreDividido.length>1)
+                peticion+=nombreDividido[index]+"+";
+            else if(index<nombreDividido.length-1)
+                peticion+=nombreDividido[index]+"+";
             else
-                peticion+=nombre[index];
+                peticion+=nombreDividido[index];
         }
         if(anio!="")
             peticion+="&y="+anio;
@@ -106,7 +116,7 @@ function buscarPelicula(id){
     });
 }
 function limpiarModal(){
-    $('i').attr('class','fas fa-star')
+    $('i').attr('class','far fa-star')
     $('#genre').text("");
     $('#release').text("");
     $('#director').text("");
@@ -117,33 +127,15 @@ function limpiarModal(){
 }
 function ponerEstrellas(imdbRating){
     var rating=parseInt(imdbRating.split(".")[0]);
-    switch (rating) {
-        case 1:
-        case 2: $('#star2').attr("class","far fa-star");
-        case 3:
-        case 4: $('#star3').attr("class","far fa-star");
-        case 5:
-        case 6: $('#star4').attr("class","far fa-star");
-        case 7:
-        case 8: $('#star5').attr("class","far fa-star");    
-        default:
-            break;
-    }
-    switch (rating) {
-        case 1: $('#star1').attr("class","fas fa-star-half-alt")
-        break;
-        case 3: $('#star2').attr("class","fas fa-star-half-alt")
-        break;
-        case 5: $('#star3').attr("class","fas fa-star-half-alt")
-        break;
-        case 7: $('#star4').attr("class","fas fa-star-half-alt")
-        break;
-        case 9: $('#star5').attr("class","fas fa-star-half-alt")
-        break;
-        default:
-            break;
-    }
+    let estrella = parseInt(rating/2);
+    //Hace la media de la puntuacion y redondea el resultado, y cambia todas las estrellas (tag i) menores al numero resultante
+    // y pone estrellas rellenas
+    $('i:lt('+estrella+')').attr("class","fas fa-star");
+    //Hace la media de la puntuacion y si el resto es igual a 1, cambia la estrella numero igual a la media del resultado
+    //por una estrella rellena a la mitad
+    rating%2==1 ? $('i:eq('+(estrella)+')').attr("class","fas fa-star-half-alt"): null;
 }
+
 function maquetarModal(datos){
     $('#modalTitle').text(datos.Title);
     if(datos.Poster!="N/A")
