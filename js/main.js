@@ -28,6 +28,9 @@ function comprobarBloqueo(){
     if(!bloqueo)
         anadirPortadas();
 }
+//Pone en true la variable bloqueo. Crea el enlace por el que va a enviar la peticion, añadiendole el nombre y el año (si existe) , la pagina que se va a mostrar y la clave de la api. Una vez recibida la respuesta
+//Si no ha ocurrido ningun error, se maqueta la informacion de la respuesta mediante el metodo maquetar portadas 
+//Si ha ocurrido un error avisa por consola. Al final de la funcion se incrementa la pagina para cuando se llame de nuevo mendiante el scroll del navegador.
 function anadirPortadas(){
     if(($(window).scrollTop() + $(window).height() >= $(document).height()-100)){
         $('#carga').attr("style",'');
@@ -61,6 +64,10 @@ function anadirPortadas(){
         pagina++;
     }
 }
+//Este metodo recoge la informacion obtenida en la peticion, y por cada una de las peliculas, crea una Card de boostrap a la cual le añade la imagen de la pelicula (Cuya url la devuelve la peticion ayax)
+// y añade el titulo de esta en un div hover (Va po encima de la imagen),al que se le añade dos eventos (Mouse enter y mouse leave) que van a controlar si se muestra el titulo o no (Mediante css). Por cada pelicula
+//Se guarda el imdbID como una variable del objeto, variable que se utilizara en el metodo al que llama el evento click añadido al div global de la card.
+//Coloca la variable de bloqueo en falso
 function maquetarPortadas(peliculas){
     console.log(peliculas)
     $.each(peliculas.Search,function(indice,element){
@@ -100,6 +107,8 @@ function maquetarPortadas(peliculas){
     });
     bloqueo=false;
 }
+//Funcion que busca el detalle de la pelicula cuyo id es pasado como parametro. Vuelve a crear el enlace esta vez para una pelicula en concreto y realiza la peticion ayax
+//Si se realiza correctamente, llama al metodo maquetarModal
 function buscarPelicula(id){
     var peticion=enlace;
     peticion+='i='+id;
@@ -115,6 +124,7 @@ function buscarPelicula(id){
         }
     });
 }
+//Limpia el modal y lo deja en estado por defecto (Vacia todos los parrafos y cambia las estrellas por estrellas vacias)
 function limpiarModal(){
     $('i').attr('class','far fa-star')
     $('#genre').text("");
@@ -135,7 +145,8 @@ function ponerEstrellas(imdbRating){
     //por una estrella rellena a la mitad
     rating%2==1 ? $('i:eq('+(estrella)+')').attr("class","fas fa-star-half-alt"): null;
 }
-
+//Utilizando el detalle de la pelicula pasada como parametro, rellena los parrafos que se encuentran en el modal y lo muestra.
+//Las estrellas de la calificacion se colocan en el metodo ponerEstrellas()
 function maquetarModal(datos){
     $('#modalTitle').text(datos.Title);
     if(datos.Poster!="N/A")
