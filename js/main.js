@@ -106,6 +106,7 @@ function buscarPelicula(id){
     });
 }
 function limpiarModal(){
+    $('i').attr('class','fas fa-star')
     $('#genre').text("");
     $('#release').text("");
     $('#director').text("");
@@ -114,15 +115,48 @@ function limpiarModal(){
     $('#plot').text("");
     $('#rating').text("");
 }
+function ponerEstrellas(imdbRating){
+    var rating=parseInt(imdbRating.split(".")[0]);
+    switch (rating) {
+        case 1:
+        case 2: $('#star2').attr("class","far fa-star");
+        case 3:
+        case 4: $('#star3').attr("class","far fa-star");
+        case 5:
+        case 6: $('#star4').attr("class","far fa-star");
+        case 7:
+        case 8: $('#star5').attr("class","far fa-star");    
+        default:
+            break;
+    }
+    switch (rating) {
+        case 1: $('#star1').attr("class","fas fa-star-half-alt")
+        break;
+        case 3: $('#star2').attr("class","fas fa-star-half-alt")
+        break;
+        case 5: $('#star3').attr("class","fas fa-star-half-alt")
+        break;
+        case 7: $('#star4').attr("class","fas fa-star-half-alt")
+        break;
+        case 9: $('#star5').attr("class","fas fa-star-half-alt")
+        break;
+        default:
+            break;
+    }
+}
 function maquetarModal(datos){
-    $('#modalTitle').text(datos.Title)
-    $('#img').attr("src",datos.Poster);
+    $('#modalTitle').text(datos.Title);
+    if(datos.Poster!="N/A")
+        $('#img').attr("src",datos.Poster);
+    else
+        $('#img').attr("src",'./img/notFound.jpg');
     $('#genre').text(datos.Genre)
     $('#release').text(datos.Release)
     $('#director').text(datos.Director)
     $('#writer').text(datos.Writer)
     $('#actors').text(datos.Actors)
     $('#plot').text(datos.Plot)
-    $('#rating').text(datos.imdbRating)
+    $('#numPuntuacion').text(datos.imdbRating);
+    ponerEstrellas(datos.imdbRating);
     $('#modalCenter').fadeIn();
 }
