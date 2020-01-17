@@ -154,7 +154,7 @@ function maquetarModal(datos){
     else
         $('#img').attr("src",'./img/notFound.jpg');
     $('#genre').text(datos.Genre)
-    $('#release').text(datos.Release)
+    $('#release').text(datos.Released)
     $('#director').text(datos.Director)
     $('#writer').text(datos.Writer)
     $('#actors').text(datos.Actors)
